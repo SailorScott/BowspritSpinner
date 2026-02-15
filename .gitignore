@@ -1,2 +1,9 @@
 *.url
 *:Zone.Identifier
+
+# Arduino build output
+build/
+*.elf
+*.hex
+*.bin
+*.eep
