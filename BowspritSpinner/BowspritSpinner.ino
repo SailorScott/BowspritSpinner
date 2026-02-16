@@ -9,7 +9,7 @@
  */
 
 // Pin definitions - Outputs
-#define PIN_PULSE     9   // PU- on driver
+#define PIN_PULSE    A5   // PU- on driver (D19/A5)
 #define PIN_DIR       8   // DR- on driver
 #define PIN_LED      13   // Built-in LED (running indicator)
 

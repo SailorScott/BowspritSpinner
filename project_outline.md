@@ -70,7 +70,7 @@ SW1: Current setting (OFF=1.0A, ON=1.5A)
 | D2 | Input | Faster button | White wire to D2, Green wire to GND (INPUT_PULLUP) |
 | D3 | Input | Slower button | Black wire to D3, Green wire to GND (INPUT_PULLUP) |
 | D8 | Output | Direction signal | Driver DR- |
-| D9 | Output | Pulse signal | Driver PU- |
+| A5 (D19) | Output | Pulse signal | Driver PU- |
 | D13 | Output | Running indicator | Built-in LED (toggles every 100 pulses) |
 | 5V | Power | Opto-isolator common | Driver XCOM |
 | GND | Power | Common ground | Power supply GND |
@@ -79,7 +79,7 @@ SW1: Current setting (OFF=1.0A, ON=1.5A)
 
 | Driver Pin | Type | Function | Connected To |
 |-|-|-|-|
-| PU- | Input | Pulse input | Arduino D9 |
+| PU- | Input | Pulse input | Arduino A5 (D19) |
 | DR- | Input | Direction input | Arduino D8 |
 | MF- | Input | Enable input | (float - not connected) |
 | XCOM | Power | Opto-isolator common | Arduino 5V |
@@ -113,6 +113,14 @@ For 2 RPM bowsprit with 3:1 belt drive and 200 steps/rev:
     ArduinoNanoV3_Specs.md        - Arduino Nano specifications
     StepperMotorwDriverL.pdf      - Motor/driver datasheet
 ```
+
+## Driver Wiring
+
+| Wire Color | Connection |
+|-|-|
+| Red | XCOM (Arduino 5V) |
+| White | PU- (Arduino A5/D19) |
+| Black | GND (Power supply ground) |
 
 ## Switch Wiring
 
