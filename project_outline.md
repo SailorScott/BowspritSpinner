@@ -24,7 +24,7 @@
 * **Driver:** Integrated IDC1-42
 * **Belt Drive:** 3:1 ratio (motor to bowsprit)
 * **Bootloader:** New (ATmega328P, 115200 baud) - FQBN: `arduino:avr:nano`
-* **Power:** 12-30V DC for motor/driver
+* **Power:** 12V DC power supply (Nano via VIN, driver via DC+)
 
 ## Motor Specifications
 
@@ -72,6 +72,7 @@ SW1: Current setting (OFF=1.0A, ON=1.5A)
 | D8 | Output | Direction signal | Driver DR- |
 | A5 (D19) | Output | Pulse signal | Driver PU- |
 | D13 | Output | Running indicator | Built-in LED (toggles every 100 pulses) |
+| VIN | Power | Nano power input | Power supply +12V |
 | 5V | Power | Opto-isolator common | Driver XCOM |
 | GND | Power | Common ground | Power supply GND |
 
