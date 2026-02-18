@@ -31,6 +31,9 @@
 int currentRPM = RPM_DEFAULT;
 unsigned long pulseIntervalUs;
 
+// Non-blocking pulse timing
+unsigned long lastPulseTime = 0;
+
 // Button debounce
 unsigned long lastButtonTime = 0;
 #define DEBOUNCE_MS 200
@@ -88,33 +91,41 @@ void setup() {
 }
 
 void loop() {
+  unsigned long nowMs = millis();
+
   // Check speed buttons
-  if (millis() - lastButtonTime > DEBOUNCE_MS) {
+  if (nowMs - lastButtonTime > DEBOUNCE_MS) {
     if (digitalRead(PIN_FASTER) == LOW) {
       if (currentRPM < RPM_MAX) {
         currentRPM += RPM_STEP;
         calculatePulseInterval();
         Serial.print("RPM: ");
-        Serial.println(currentRPM);
+        Serial.print(currentRPM);
+        Serial.print(" (interval: ");
+        Serial.print(pulseIntervalUs);
+        Serial.println(" us)");
       }
-      lastButtonTime = millis();
+      lastButtonTime = nowMs;
     }
     else if (digitalRead(PIN_SLOWER) == LOW) {
       if (currentRPM > RPM_MIN) {
         currentRPM -= RPM_STEP;
         calculatePulseInterval();
         Serial.print("RPM: ");
-        Serial.println(currentRPM);
+        Serial.print(currentRPM);
+        Serial.print(" (interval: ");
+        Serial.print(pulseIntervalUs);
+        Serial.println(" us)");
       }
-      lastButtonTime = millis();
+      lastButtonTime = nowMs;
     }
   }
 
   // Only pulse if running
   if (currentRPM > 0) {
-    // Generate pulse - rising edge triggers step
+    // Generate pulse - hold HIGH for 1ms for reliable driver triggering
     digitalWrite(PIN_PULSE, HIGH);
-    delayMicroseconds(10);  // Pulse width > 2.5us per spec
+    delay(1);
     digitalWrite(PIN_PULSE, LOW);
 
     // Blink LED every 100 pulses
@@ -126,10 +137,17 @@ void loop() {
     }
 
     // Wait for next step
-    delayMicroseconds(pulseIntervalUs - 10);
+    unsigned long waitMs = (pulseIntervalUs / 1000) - 1;
+    unsigned long remainUs = pulseIntervalUs % 1000;
+    if (waitMs > 0) {
+      delay(waitMs);
+    }
+    if (remainUs > 0) {
+      delayMicroseconds(remainUs);
+    }
   } else {
-    digitalWrite(PIN_LED, LOW);  // LED off when stopped
-    delay(10);  // Idle delay when stopped
+    digitalWrite(PIN_LED, LOW);
+    delay(10);
   }
 
   // Report current speed every 10 seconds

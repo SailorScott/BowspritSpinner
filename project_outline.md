@@ -43,7 +43,7 @@
 | Input Voltage | 12-30V DC |
 | Microstepping | 200-3600 steps/rev (DIP configurable) |
 | Pulse Frequency | 0-90 KHz |
-| Pulse Width | >2.5μs |
+| Pulse Width | >2.5μs (spec), 1ms used (opto-isolator needs longer) |
 | Direction Setup | 50μs before pulse |
 
 ## DIP Switch Settings (Microstepping)
